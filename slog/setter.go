@@ -1,12 +1,15 @@
 package slog
 
-import "log/slog"
+import (
+	"github.com/ficoto/logany"
+	"log/slog"
+)
 
 type Setter func(c *Config)
 
-func SetLevel(level slog.Level) Setter {
+func SetLevel(level logany.Level) Setter {
 	return func(c *Config) {
-		c.level = level
+		c.level = toSlogLevel(level)
 		c.replaceAttrList = append([]func(groups []string, a slog.Attr) slog.Attr{LevelReplaceAttr}, c.replaceAttrList...)
 	}
 }

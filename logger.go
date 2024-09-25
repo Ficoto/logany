@@ -1,6 +1,19 @@
 package logany
 
+type Level int
+
+const (
+	LevelTrace Level = -8
+	LevelDebug Level = -4
+	LevelInfo  Level = 0
+	LevelWarn  Level = 4
+	LevelError Level = 8
+	LevelFatal Level = 12
+	LevelPanic Level = 16
+)
+
 type Logger interface {
+	SetLevel(l Level)
 	WithError(err error) Logger
 	WithField(key string, value any) Logger
 	WithFields(fields map[string]any) Logger

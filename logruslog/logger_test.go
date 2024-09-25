@@ -1,6 +1,7 @@
 package logruslog
 
 import (
+	"github.com/ficoto/logany"
 	"github.com/sirupsen/logrus"
 	"os"
 	"testing"
@@ -19,4 +20,7 @@ func TestLog(t *testing.T) {
 		"c": a,
 	}).Info("test")
 	l.Infoln("test2")
+	l.SetLevel(logany.LevelError)
+	l.Info("test3")
+	l.Error("test4")
 }

@@ -63,6 +63,7 @@ type Config struct {
 }
 
 type Logger struct {
+	level *slog.LevelVar
 	*slog.Logger
 }
 
@@ -73,11 +74,13 @@ func New(writer io.Writer, setters ...Setter) logany.Logger {
 	}
 	var (
 		h              slog.Handler
+		logLevel       = &slog.LevelVar{}
 		handlerOptions = &slog.HandlerOptions{
 			AddSource: c.addSource,
-			Level:     c.level,
+			Level:     logLevel,
 		}
 	)
+	logLevel.Set(c.level)
 	if len(c.replaceAttrList) != 0 {
 		handlerOptions.ReplaceAttr = replaceAttrForList(c.replaceAttrList...)
 	}
@@ -92,8 +95,13 @@ func New(writer io.Writer, setters ...Setter) logany.Logger {
 		l = l.With(slog.String("project", c.projectName))
 	}
 	return &Logger{
+		level:  logLevel,
 		Logger: l,
 	}
+}
+
+func (l *Logger) SetLevel(level logany.Level) {
+	l.level.Set(toSlogLevel(level))
 }
 
 func (l *Logger) WithError(err error) logany.Logger {

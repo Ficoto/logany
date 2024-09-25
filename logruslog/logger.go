@@ -132,6 +132,25 @@ func New(writer io.Writer, setters ...Setter) logany.Logger {
 	}
 }
 
+func (l *Logrus) SetLevel(level logany.Level) {
+	switch level {
+	case logany.LevelTrace:
+		logrus.SetLevel(logrus.TraceLevel)
+	case logany.LevelDebug:
+		logrus.SetLevel(logrus.DebugLevel)
+	case logany.LevelInfo:
+		logrus.SetLevel(logrus.InfoLevel)
+	case logany.LevelWarn:
+		logrus.SetLevel(logrus.WarnLevel)
+	case logany.LevelError:
+		logrus.SetLevel(logrus.ErrorLevel)
+	case logany.LevelFatal:
+		logrus.SetLevel(logrus.FatalLevel)
+	case logany.LevelPanic:
+		logrus.SetLevel(logrus.PanicLevel)
+	}
+}
+
 func (l *Logrus) WithError(err error) logany.Logger {
 	return &Logrus{
 		Entry: l.Entry.WithError(err),

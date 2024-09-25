@@ -1,6 +1,7 @@
 package slog
 
 import (
+	"github.com/ficoto/logany"
 	"log/slog"
 )
 
@@ -13,6 +14,10 @@ const (
 	LevelFatal slog.Level = 12
 	LevelPanic slog.Level = 16
 )
+
+func toSlogLevel(l logany.Level) slog.Level {
+	return slog.Level(l)
+}
 
 func level2Str(l slog.Level) string {
 	switch l {
